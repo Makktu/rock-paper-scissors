@@ -6,7 +6,7 @@
 // create the choices
 let gameObjects = ["rock", "paper", "scissors"];
 
-// the function where one of rock, paper, scissors is picked
+// the function where one of rock, paper, scissors is picked by the 'AI'
 function computerPlay() {
     let compNum = Math.floor(Math.random() * 3); // random choice between numbers 0, 1, 2
     let compChoice = gameObjects[compNum];
@@ -14,17 +14,56 @@ function computerPlay() {
 }
 
 function playerPlay() {
-    let playNum = 4;
-    playNum = parseInt(
-        prompt(
-            "Pick one of these: \n1) Rock \n2) Paper \n3)Scissors \nEnter 1-3 only"
-        )
-    );
-    if (playNum !== 1) {
-        console.log("Please input numbers 1, 2, or 3 only");
+    let playChoice = prompt("Pick one of these: \nrock \npaper \nscissors");
+
+    playChoice.toLowerCase();
+
+    if (
+        playChoice !== "rock" &&
+        playChoice !== "paper" &&
+        playChoice !== "scissors"
+    ) {
+        alert("Please enter a valid choice");
         playerPlay();
     }
+
+    return playChoice;
 }
 
-console.log(computerPlay());
-playerPlay();
+function decideWinner(comp, player) {
+    if (comp === player) {
+        alert(comp, player);
+        return 0;
+    }
+    if (comp == "rock" && player == "scissors") return 1;
+    if (comp == "paper" && player == "rock") return 1;
+    if (comp == "scissors" && player == "paper") return 1;
+
+    if (comp == "rock" && player == "paper") return 2;
+    if (comp == "scissors" && player == "rock") return 2;
+    if (comp == "paper" && player == "scissors") return 2;
+}
+
+const playAgain = () => {
+    let again = prompt("Play Again? (y/n)");
+    if (again == "y") document.location.reload(true);
+    alert("Goodbye");
+};
+
+let compPick = computerPlay();
+let playerPick = playerPlay();
+
+let result = decideWinner(compPick, playerPick);
+
+if ((result = 0)) {
+    alert(`Computer ${compPick} ties with Player ${playerPick}!`);
+    playAgain();
+}
+if ((result = 1)) {
+    alert(`Computer ${compPick} beats Player ${playerPick}!`);
+    playAgain();
+}
+if ((result = 2)) {
+    alert(`Player ${playerPick} beats Computer ${compPick}!`);
+    playAgain();
+}
