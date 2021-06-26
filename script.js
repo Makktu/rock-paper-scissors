@@ -16,7 +16,7 @@ function computerPlay() {
 function playerPlay() {
     let playChoice = prompt("Pick one of these: \nrock \npaper \nscissors");
 
-    playChoice.toLowerCase();
+    playChoice.toString().toLowerCase();
 
     if (
         playChoice !== "rock" &&
@@ -31,8 +31,7 @@ function playerPlay() {
 }
 
 function decideWinner(comp, player) {
-    if (comp === player) {
-        alert(comp, player);
+    if (comp == player) {
         return 0;
     }
     if (comp == "rock" && player == "scissors") return 1;
@@ -46,24 +45,48 @@ function decideWinner(comp, player) {
 
 const playAgain = () => {
     let again = prompt("Play Again? (y/n)");
-    if (again == "y") document.location.reload(true);
-    alert("Goodbye");
+    if (again == "y") {
+        mainGameLoop();
+    } else {
+        document.write("Goodbye");
+    }
 };
 
-let compPick = computerPlay();
-let playerPick = playerPlay();
+function mainGameLoop() {
+    let round;
+    let comScore = 0;
+    let playerScore = 0;
 
-let result = decideWinner(compPick, playerPick);
+    for (round = 1; round < 6; round++) {
+        alert(`*** Beginning Round ${round} ***`);
+        let compPick = computerPlay();
+        let playerPick = playerPlay();
 
-if ((result = 0)) {
-    alert(`Computer ${compPick} ties with Player ${playerPick}!`);
+        let result = decideWinner(compPick, playerPick);
+
+        if (result == 0) {
+            alert(
+                `A draw. Computer ${compPick} ties with Player ${playerPick}!`
+            );
+            comScore += 0.5;
+            playerScore += 0.5;
+            continue;
+        }
+        if (result == 1) {
+            alert(
+                `You lose... Computer ${compPick} beats Player ${playerPick}!`
+            );
+            comScore += 1;
+            continue;
+        }
+        if (result == 2) {
+            alert(`You win! Player ${playerPick} beats Computer ${compPick}.`);
+            playerScore += 1;
+            continue;
+        }
+    }
+    alert(`Final scores: \nPlayer: ${playerScore}\nComputer: ${comScore}`);
     playAgain();
 }
-if ((result = 1)) {
-    alert(`Computer ${compPick} beats Player ${playerPick}!`);
-    playAgain();
-}
-if ((result = 2)) {
-    alert(`Player ${playerPick} beats Computer ${compPick}!`);
-    playAgain();
-}
+
+mainGameLoop();
