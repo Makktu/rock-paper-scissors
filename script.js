@@ -1,5 +1,6 @@
 "use strict";
 
+// * ORIGINAL
 // * ROCK PAPER SCISSORS
 // * ~~~~~~~~~~~~~~~~~~~
 
