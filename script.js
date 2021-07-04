@@ -1,34 +1,14 @@
 "use strict";
 
-// * ORIGINAL
+// * WITH GUI
 // * ROCK PAPER SCISSORS
 // * ~~~~~~~~~~~~~~~~~~~
-
-// create the choices
-let gameObjects = ["rock", "paper", "scissors"];
 
 // the function where one of rock, paper, scissors is picked by the 'AI'
 function computerPlay() {
     let compNum = Math.floor(Math.random() * 3); // random choice between numbers 0, 1, 2
     let compChoice = gameObjects[compNum];
     return compChoice;
-}
-
-function playerPlay() {
-    let playChoice = prompt("Pick one of these: \nrock \npaper \nscissors");
-
-    playChoice.toString().toLowerCase();
-
-    if (
-        playChoice !== "rock" &&
-        playChoice !== "paper" &&
-        playChoice !== "scissors"
-    ) {
-        alert("Please enter a valid choice");
-        playerPlay();
-    }
-
-    return playChoice;
 }
 
 function decideWinner(comp, player) {
@@ -44,50 +24,91 @@ function decideWinner(comp, player) {
     if (comp == "paper" && player == "scissors") return 2;
 }
 
-const playAgain = () => {
-    let again = prompt("Play Again? (y/n)");
-    if (again == "y") {
-        mainGameLoop();
-    } else {
-        document.write("Goodbye");
+function decideVictory(com, player) {
+    if (com === player) {
+        messageArea.innerText = `DRAW - You ${player} / COM ${com}`;
+    } else if (com > player) {
+        messageArea.innerText = `LOSE - You ${player} / COM ${com}`;
+        gameOver.play();
+    } else if (com < player) {
+        messageArea.innerText = `WIN! - You ${player} / COM ${com}`;
+        victoryFanfare.play();
     }
-};
-
-function mainGameLoop() {
-    let round;
-    let comScore = 0;
-    let playerScore = 0;
-
-    for (round = 1; round < 6; round++) {
-        alert(`*** Beginning Round ${round} ***`);
-        let compPick = computerPlay();
-        let playerPick = playerPlay();
-
-        let result = decideWinner(compPick, playerPick);
-
-        if (result == 0) {
-            alert(
-                `A draw. Computer ${compPick} ties with Player ${playerPick}!`
-            );
-            comScore += 0.5;
-            playerScore += 0.5;
-            continue;
-        }
-        if (result == 1) {
-            alert(
-                `You lose... Computer ${compPick} beats Player ${playerPick}!`
-            );
-            comScore += 1;
-            continue;
-        }
-        if (result == 2) {
-            alert(`You win! Player ${playerPick} beats Computer ${compPick}.`);
-            playerScore += 1;
-            continue;
-        }
-    }
-    alert(`Final scores: \nPlayer: ${playerScore}\nComputer: ${comScore}`);
+    // resultArea.innerText = "";
     playAgain();
 }
 
-mainGameLoop();
+const playAgain = () => {
+    playAgainArea.innerHTML = `<button onclick="go()" class="play-again">PLAY AGAIN</button>`;
+};
+
+function go() {
+    messageArea.innerText = "BEGIN!";
+    resultArea.innerText = "";
+    playAgainArea.innerText = "";
+    youScore.innerText = `YOU: 0`;
+    AIScore.innerText = `COM: 0`;
+    round = 1;
+    comScore = 0;
+    playerScore = 0;
+    playChoice = "";
+    return;
+}
+
+function mainGameLoop(playChoice) {
+    messageArea.innerText = `Round ${round}`;
+
+    if (round <= 5) {
+        let compPick = computerPlay();
+        // let playerPick = playerPlay();
+
+        let result = decideWinner(compPick, playChoice);
+
+        if (result == 0) {
+            resultArea.innerText = `A draw. Computer ${compPick} ties with Player ${playChoice}!`;
+            comScore += 0.5;
+            playerScore += 0.5;
+        }
+        if (result == 1) {
+            resultArea.innerText = `You lose... Computer ${compPick} beats Player ${playChoice}!`;
+            comScore += 1;
+        }
+        if (result == 2) {
+            resultArea.innerText = `You win! Player ${playChoice} beats Computer ${compPick}.`;
+            playerScore += 1;
+        }
+
+        youScore.innerText = `YOU: ${playerScore}`;
+        AIScore.innerText = `COM: ${comScore}`;
+
+        round += 1;
+        if (round === 6) decideVictory(comScore, playerScore);
+        playChoice = "";
+
+        return;
+    }
+}
+
+// create the choices
+let gameObjects = ["rock", "paper", "scissors"];
+
+const buttons = document.querySelectorAll(".player-btn");
+const messageArea = document.querySelector(".messages");
+const resultArea = document.querySelector(".results");
+const playAgainArea = document.querySelector(".play-again");
+const youScore = document.querySelector(".you-score");
+const AIScore = document.querySelector(".com-score");
+const victoryFanfare = new Audio("sound/Victory.wav");
+const gameOver = new Audio("sound/gameover.wav");
+
+let round = 1;
+let comScore = 0;
+let playerScore = 0;
+let playChoice = "";
+
+buttons.forEach((button) => {
+    button.addEventListener("click", function () {
+        playChoice = button.id;
+        mainGameLoop(playChoice);
+    });
+});

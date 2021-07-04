@@ -2,3 +2,88 @@ html {
     background-color: black;
     color: white;
 }
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-zone {
+    margin-top: 5vh;
+}
+
+button {
+    margin-top: 10px;
+    width: 149px;
+    height: 40px;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 1.09rem;
+    color: black;
+    animation: glowing 1300ms infinite;
+}
+
+@keyframes glowing {
+    0% {
+        background-color: lightblue;
+    }
+    50% {
+        background-color: lightseagreen;
+    }
+    100% {
+        background-color: lightskyblue;
+    }
+}
+
+img {
+    /* border: 2px black solid; */
+    border-radius: 20px;
+    margin-left: 5px;
+}
+
+img:hover {
+    transition: all 0.3s ease-in-out;
+    transform: scale(1.1);
+}
+
+#scissors:hover {
+    border: 2px yellowgreen solid;
+}
+#paper:hover {
+    border: 2px cyan solid;
+}
+
+#rock:hover {
+    border: 2px rgb(133, 51, 65) solid;
+}
+
+.computer-rock {
+    background-image: url(images/rock.png);
+}
+.computer-paper {
+    background-image: url(images/paper.png);
+}
+.computer-scissors {
+    background-image: url(images/scissors.png);
+}
+
+.messages {
+    margin-top: 10px;
+    font-size: 2rem;
+}
+
+.results {
+    margin-top: 10px;
+    font-size: 2rem;
+}
+
+.you-score {
+    font-size: 1.5rem;
+    color: aqua;
+}
+.com-score {
+    font-size: 1.5rem;
+    color: rgb(133, 51, 65);
+}
