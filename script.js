@@ -56,9 +56,9 @@ function go() {
 }
 
 function mainGameLoop(playChoice) {
-    messageArea.innerText = `Round ${round}`;
-
     if (round <= 5) {
+        messageArea.innerText = `Round ${round}`;
+
         let compPick = computerPlay();
         // let playerPick = playerPlay();
 

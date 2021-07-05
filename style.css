@@ -1,6 +1,7 @@
-html {
+body {
     background-color: black;
     color: white;
+    overflow: hidden;
 }
 
 .container {
@@ -8,10 +9,12 @@ html {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    height: 100vh;
 }
 
 .btn-zone {
-    margin-top: 5vh;
+    margin-top: 20px;
+    height: 300px;
 }
 
 button {
